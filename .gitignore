@@ -1,0 +1,23 @@
+.build/
+.swiftpm/
+*.xcuserstate
+xcuserdata/
+DerivedData/
+.DS_Store
+.claude/
+
+# Les sauvegardes contiennent des données de santé personnelles.
+*.loopbackup/
+
+# Fixtures de données réelles (volumineuses, locales) — tirées via scripts/fetch_fixtures.sh
+Packages/LoopStrapEngine/Tests/LoopStrapEngineTests/Resources/realdata/
+Packages/LoopStrapEngine/Tests/LoopStrapEngineTests/Resources/realdata_native/
+
+# Artefacts de build locaux (archives, IPA)
+build/
+
+# Notes de recherche, audits et maquettes conservés localement
+/DIAGNOSIS.md
+/docs/
+/loop-redesign/*.md
+/mockups/

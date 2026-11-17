@@ -1,0 +1,87 @@
+{
+  "module": "hrv",
+  "function": "sdnn",
+  "oracle_git_sha": "2447572a9323fdddf7d191012f6cfb06eed9909d",
+  "oracle_versions": {
+    "neurokit2": "0.2.13",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "exported_at": "2026-06-15T20:35:42.833194Z",
+  "cases": [
+    {
+      "name": "known_value",
+      "inputs": {
+        "rr_ms": [
+          800,
+          820,
+          810,
+          830
+        ]
+      },
+      "output": 12.909944487358056,
+      "output_is_none": false
+    },
+    {
+      "name": "constant_rr_is_zero",
+      "inputs": {
+        "rr_ms": [
+          800,
+          800,
+          800,
+          800,
+          800
+        ]
+      },
+      "output": 0.0,
+      "output_is_none": false
+    },
+    {
+      "name": "sample_stdev",
+      "inputs": {
+        "rr_ms": [
+          800,
+          850,
+          900,
+          750
+        ]
+      },
+      "output": 64.54972243679028,
+      "output_is_none": false
+    },
+    {
+      "name": "outlier_dropped_same_result",
+      "inputs": {
+        "rr_ms": [
+          100,
+          800,
+          820,
+          810,
+          830
+        ]
+      },
+      "output": 12.909944487358056,
+      "output_is_none": false
+    },
+    {
+      "name": "one_valid_raises",
+      "inputs": {
+        "rr_ms": [
+          800
+        ]
+      },
+      "output": null,
+      "output_is_none": false,
+      "raises": "ValueError"
+    },
+    {
+      "name": "empty_raises",
+      "inputs": {
+        "rr_ms": []
+      },
+      "output": null,
+      "output_is_none": false,
+      "raises": "ValueError"
+    }
+  ]
+}

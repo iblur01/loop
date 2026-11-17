@@ -1,0 +1,154 @@
+{
+  "module": "hrv",
+  "function": "rmssd",
+  "oracle_git_sha": "2447572a9323fdddf7d191012f6cfb06eed9909d",
+  "oracle_versions": {
+    "neurokit2": "0.2.13",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "exported_at": "2026-06-15T20:35:42.832718Z",
+  "cases": [
+    {
+      "name": "known_value",
+      "inputs": {
+        "rr_ms": [
+          800,
+          820,
+          810,
+          830
+        ]
+      },
+      "output": 17.320508075688775,
+      "output_is_none": false
+    },
+    {
+      "name": "alternating_800_900",
+      "inputs": {
+        "rr_ms": [
+          800,
+          900,
+          800,
+          900,
+          800,
+          900,
+          800,
+          900,
+          800,
+          900
+        ]
+      },
+      "output": 100.0,
+      "output_is_none": false
+    },
+    {
+      "name": "constant_rr_is_zero",
+      "inputs": {
+        "rr_ms": [
+          850,
+          850,
+          850,
+          850,
+          850
+        ]
+      },
+      "output": 0.0,
+      "output_is_none": false
+    },
+    {
+      "name": "two_element_minimum",
+      "inputs": {
+        "rr_ms": [
+          800,
+          900
+        ]
+      },
+      "output": 100.0,
+      "output_is_none": false
+    },
+    {
+      "name": "low_outlier_dropped_same_result",
+      "inputs": {
+        "rr_ms": [
+          100,
+          800,
+          820,
+          810,
+          830
+        ]
+      },
+      "output": 17.320508075688775,
+      "output_is_none": false
+    },
+    {
+      "name": "high_outlier_dropped_same_result",
+      "inputs": {
+        "rr_ms": [
+          800,
+          820,
+          810,
+          830,
+          5000
+        ]
+      },
+      "output": 17.320508075688775,
+      "output_is_none": false
+    },
+    {
+      "name": "float_inputs_accepted",
+      "inputs": {
+        "rr_ms": [
+          800.5,
+          820.5,
+          810.5,
+          830.5
+        ]
+      },
+      "output": 17.320508075688775,
+      "output_is_none": false
+    },
+    {
+      "name": "empty_raises",
+      "inputs": {
+        "rr_ms": []
+      },
+      "output": null,
+      "output_is_none": false,
+      "raises": "ValueError"
+    },
+    {
+      "name": "one_valid_after_filtering_raises",
+      "inputs": {
+        "rr_ms": [
+          800,
+          100
+        ]
+      },
+      "output": null,
+      "output_is_none": false,
+      "raises": "ValueError"
+    },
+    {
+      "name": "all_implausible_raises",
+      "inputs": {
+        "rr_ms": [
+          50,
+          3000
+        ]
+      },
+      "output": null,
+      "output_is_none": false,
+      "raises": "ValueError"
+    },
+    {
+      "name": "rmssd_ms_empty_diffs_is_zero",
+      "inputs": {
+        "rr_ms": [
+          800
+        ]
+      },
+      "output": 0.0,
+      "output_is_none": false
+    }
+  ]
+}

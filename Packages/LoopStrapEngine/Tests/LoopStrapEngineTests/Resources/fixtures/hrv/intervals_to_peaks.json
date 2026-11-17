@@ -1,0 +1,91 @@
+{
+  "module": "hrv",
+  "function": "intervals_to_peaks",
+  "oracle_git_sha": "2447572a9323fdddf7d191012f6cfb06eed9909d",
+  "oracle_versions": {
+    "neurokit2": "0.2.13",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "exported_at": "2026-06-15T20:35:42.832322Z",
+  "cases": [
+    {
+      "name": "one_interval_1000hz",
+      "inputs": {
+        "intervals_ms": [
+          800
+        ]
+      },
+      "output": [
+        0,
+        800
+      ],
+      "output_is_none": false,
+      "kwargs": {
+        "sampling_rate": 1000
+      }
+    },
+    {
+      "name": "integer_ms_1000hz",
+      "inputs": {
+        "intervals_ms": [
+          500,
+          400,
+          700,
+          500
+        ]
+      },
+      "output": [
+        0,
+        500,
+        900,
+        1600,
+        2100
+      ],
+      "output_is_none": false,
+      "kwargs": {
+        "sampling_rate": 1000
+      }
+    },
+    {
+      "name": "noninteger_ms_1000hz",
+      "inputs": {
+        "intervals_ms": [
+          800.5,
+          799.5,
+          1000.25
+        ]
+      },
+      "output": [
+        0,
+        800,
+        1600,
+        2600
+      ],
+      "output_is_none": false,
+      "kwargs": {
+        "sampling_rate": 1000
+      }
+    },
+    {
+      "name": "integer_ms_250hz",
+      "inputs": {
+        "intervals_ms": [
+          800,
+          900,
+          1000
+        ]
+      },
+      "output": [
+        0,
+        200,
+        425,
+        675
+      ],
+      "output_is_none": false,
+      "kwargs": {
+        "sampling_rate": 250
+      }
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+"NSBluetoothAlwaysUsageDescription" = "Loop se connecte en Bluetooth à ton bracelet WHOOP 4.0 pour lire localement ta fréquence cardiaque, les intervalles R-R, la batterie et les données des capteurs.";
+"NSHealthShareUsageDescription" = "Loop lit tes séances et leurs tracés GPS, ta fréquence cardiaque, tes pas, ta VFC, ton énergie, ta distance, ta VO2 max, ton poids et ton sommeil uniquement sur l’appareil. Rien n’est écrit dans Santé ni envoyé ailleurs.";

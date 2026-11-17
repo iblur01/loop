@@ -1,0 +1,13 @@
+{
+  "module": "units",
+  "function": "meta_test",
+  "oracle_git_sha": "meta_test_fixture_not_oracle_data",
+  "oracle_versions": { "numpy": "2.4.6", "scipy": "1.17.1" },
+  "exported_at": "2026-06-15T00:00:00Z",
+  "cases": [
+    { "name": "normal_float", "inputs": { "x": 1.5 }, "output": 1.5, "output_is_none": false },
+    { "name": "nan_output", "inputs": { "x": 0.0 }, "output": "NaN", "output_is_none": false },
+    { "name": "none_output", "inputs": { "x": -1.0 }, "output": null, "output_is_none": true },
+    { "name": "array_input", "inputs": { "xs": [1.0, 2.0, 3.0] }, "output": 2.0, "output_is_none": false }
+  ]
+}

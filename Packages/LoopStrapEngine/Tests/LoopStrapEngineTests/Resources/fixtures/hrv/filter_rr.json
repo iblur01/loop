@@ -1,0 +1,135 @@
+{
+  "module": "hrv",
+  "function": "filter_rr",
+  "oracle_git_sha": "2447572a9323fdddf7d191012f6cfb06eed9909d",
+  "oracle_versions": {
+    "neurokit2": "0.2.13",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "exported_at": "2026-06-15T20:35:42.829847Z",
+  "cases": [
+    {
+      "name": "all_plausible_pass_through",
+      "inputs": {
+        "rr_ms": [
+          400,
+          800,
+          1000,
+          1500,
+          2000
+        ]
+      },
+      "output": [
+        400.0,
+        800.0,
+        1000.0,
+        1500.0,
+        2000.0
+      ],
+      "output_is_none": false
+    },
+    {
+      "name": "boundary_values_included",
+      "inputs": {
+        "rr_ms": [
+          300,
+          2000
+        ]
+      },
+      "output": [
+        300.0,
+        2000.0
+      ],
+      "output_is_none": false
+    },
+    {
+      "name": "below_min_dropped",
+      "inputs": {
+        "rr_ms": [
+          100,
+          299,
+          800,
+          900
+        ]
+      },
+      "output": [
+        800.0,
+        900.0
+      ],
+      "output_is_none": false
+    },
+    {
+      "name": "above_max_dropped",
+      "inputs": {
+        "rr_ms": [
+          800,
+          900,
+          2001,
+          5000
+        ]
+      },
+      "output": [
+        800.0,
+        900.0
+      ],
+      "output_is_none": false
+    },
+    {
+      "name": "empty_input",
+      "inputs": {
+        "rr_ms": []
+      },
+      "output": [],
+      "output_is_none": false
+    },
+    {
+      "name": "all_implausible",
+      "inputs": {
+        "rr_ms": [
+          50,
+          100,
+          3000
+        ]
+      },
+      "output": [],
+      "output_is_none": false
+    },
+    {
+      "name": "mixed_outliers",
+      "inputs": {
+        "rr_ms": [
+          100,
+          800,
+          820,
+          810,
+          5000
+        ]
+      },
+      "output": [
+        800.0,
+        820.0,
+        810.0
+      ],
+      "output_is_none": false
+    },
+    {
+      "name": "float_inputs",
+      "inputs": {
+        "rr_ms": [
+          299.9,
+          300.0,
+          800.5,
+          2000.0,
+          2000.1
+        ]
+      },
+      "output": [
+        300.0,
+        800.5,
+        2000.0
+      ],
+      "output_is_none": false
+    }
+  ]
+}
