@@ -1,0 +1,72 @@
+{
+  "module": "units",
+  "function": "skin_temp_celsius",
+  "oracle_git_sha": "bdbc7aa4e358dbe94238da1cc72140d5c2997012",
+  "oracle_versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "exported_at": "2026-06-15T19:33:54.935718Z",
+  "cases": [
+    {
+      "name": "real_v24_sample_raw_930",
+      "inputs": {
+        "raw": 930.0
+      },
+      "output": 33.0,
+      "output_is_none": false
+    },
+    {
+      "name": "low_raw_500",
+      "inputs": {
+        "raw": 500.0
+      },
+      "output": 24.4,
+      "output_is_none": false
+    },
+    {
+      "name": "high_raw_1500",
+      "inputs": {
+        "raw": 1500.0
+      },
+      "output": 44.4,
+      "output_is_none": false
+    },
+    {
+      "name": "min_raw_0",
+      "inputs": {
+        "raw": 0.0
+      },
+      "output": 14.4,
+      "output_is_none": false
+    },
+    {
+      "name": "max_raw_65535",
+      "inputs": {
+        "raw": 65535.0
+      },
+      "output": 1325.1000000000001,
+      "output_is_none": false
+    },
+    {
+      "name": "custom_slope_offset",
+      "inputs": {
+        "raw": 1000.0
+      },
+      "output": 30.0,
+      "output_is_none": false,
+      "kwargs": {
+        "slope": 0.01,
+        "offset": 20.0
+      }
+    },
+    {
+      "name": "named_constants_used_raw_800",
+      "inputs": {
+        "raw": 800.0
+      },
+      "output": 30.4,
+      "output_is_none": false
+    }
+  ]
+}

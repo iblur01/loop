@@ -1,0 +1,76 @@
+{
+  "module": "units",
+  "function": "spo2_percent",
+  "oracle_git_sha": "bdbc7aa4e358dbe94238da1cc72140d5c2997012",
+  "oracle_versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "exported_at": "2026-06-15T19:33:54.919464Z",
+  "cases": [
+    {
+      "name": "equal_channels_mid_range",
+      "inputs": {
+        "red": 600.0,
+        "ir": 600.0
+      },
+      "output": 85.0,
+      "output_is_none": false
+    },
+    {
+      "name": "lower_red_ratio",
+      "inputs": {
+        "red": 400.0,
+        "ir": 600.0
+      },
+      "output": 93.33333333333334,
+      "output_is_none": false
+    },
+    {
+      "name": "higher_red_ratio",
+      "inputs": {
+        "red": 700.0,
+        "ir": 600.0
+      },
+      "output": 80.83333333333333,
+      "output_is_none": false
+    },
+    {
+      "name": "clamp_lower_bound",
+      "inputs": {
+        "red": 65535.0,
+        "ir": 100.0
+      },
+      "output": 70.0,
+      "output_is_none": false
+    },
+    {
+      "name": "clamp_upper_bound",
+      "inputs": {
+        "red": 100.0,
+        "ir": 65535.0
+      },
+      "output": 100.0,
+      "output_is_none": false
+    },
+    {
+      "name": "real_v24_sample",
+      "inputs": {
+        "red": 587.0,
+        "ir": 585.0
+      },
+      "output": 84.91452991452991,
+      "output_is_none": false
+    },
+    {
+      "name": "zero_ir_raises",
+      "inputs": {
+        "red": 587.0,
+        "ir": 0.0
+      },
+      "output": null,
+      "output_is_none": false,
+      "raises": "ZeroDivisionError"
+    }
+  ]
+}

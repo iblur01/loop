@@ -1,0 +1,281 @@
+{
+  "module": "advice",
+  "function": "compute_advice",
+  "oracle_git_sha": "standalone-07-01",
+  "oracle_versions": {},
+  "exported_at": "2026-06-17T10:10:13.303359Z",
+  "cases": [
+    {
+      "name": "cold_start",
+      "inputs": {
+        "recovery": {
+          "score": null,
+          "band": null,
+          "confidence": "low"
+        },
+        "sleep_history": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "duration_baseline": null,
+        "bedtime_baseline": null,
+        "tonight_bedtime_offset": null,
+        "strain_baseline": null,
+        "recent_strain_history": []
+      },
+      "expected": {
+        "primary_code": "RECOVERY_CALIBRATING",
+        "primary_params": {},
+        "primary_confidence": "low",
+        "secondary": [
+          {
+            "code": "EFFORT_TARGET",
+            "params_json": "{\"recent_overload\":false}",
+            "confidence": "low"
+          }
+        ]
+      }
+    },
+    {
+      "name": "red_recovery",
+      "inputs": {
+        "recovery": {
+          "score": 25.0,
+          "band": "red",
+          "confidence": "high"
+        },
+        "sleep_history": [
+          420.0,
+          400.0,
+          410.0,
+          390.0,
+          380.0
+        ],
+        "duration_baseline": {
+          "baseline": 480.0,
+          "spread": 30.0,
+          "n_valid": 30,
+          "nights_since_update": 0,
+          "status": "trusted",
+          "usable": true
+        },
+        "bedtime_baseline": null,
+        "tonight_bedtime_offset": null,
+        "strain_baseline": {
+          "baseline": 10.0,
+          "spread": 2.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted",
+          "usable": true
+        },
+        "recent_strain_history": [
+          9.0,
+          11.0,
+          12.0
+        ]
+      },
+      "expected": {
+        "primary_code": "REST_RED_RECOVERY",
+        "primary_params": {
+          "score": 25.0
+        },
+        "primary_confidence": "high",
+        "secondary": [
+          {
+            "code": "SLEEP_DEBT",
+            "params_json": "{\"debt_min\":400.0,\"window_nights\":5.0}",
+            "confidence": "high"
+          },
+          {
+            "code": "EFFORT_TARGET",
+            "params_json": "{\"recent_overload\":true,\"strain_baseline\":10.0,\"target_strain\":4.0}",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "name": "yellow_recovery",
+      "inputs": {
+        "recovery": {
+          "score": 55.0,
+          "band": "yellow",
+          "confidence": "medium"
+        },
+        "sleep_history": [
+          445.0,
+          460.0,
+          455.0,
+          440.0,
+          448.0
+        ],
+        "duration_baseline": {
+          "baseline": 450.0,
+          "spread": 20.0,
+          "n_valid": 15,
+          "nights_since_update": 0,
+          "status": "provisional",
+          "usable": true
+        },
+        "bedtime_baseline": null,
+        "tonight_bedtime_offset": null,
+        "strain_baseline": {
+          "baseline": 12.0,
+          "spread": 1.5,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted",
+          "usable": true
+        },
+        "recent_strain_history": [
+          10.0,
+          11.0,
+          11.5
+        ]
+      },
+      "expected": {
+        "primary_code": "MODERATE_YELLOW_RECOVERY",
+        "primary_params": {
+          "score": 55.0
+        },
+        "primary_confidence": "medium",
+        "secondary": [
+          {
+            "code": "EFFORT_TARGET",
+            "params_json": "{\"recent_overload\":false,\"strain_baseline\":12.0,\"target_strain\":8.399999999999999}",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "name": "green_recovery",
+      "inputs": {
+        "recovery": {
+          "score": 82.0,
+          "band": "green",
+          "confidence": "high"
+        },
+        "sleep_history": [
+          480.0,
+          490.0,
+          475.0,
+          485.0,
+          480.0
+        ],
+        "duration_baseline": {
+          "baseline": 480.0,
+          "spread": 25.0,
+          "n_valid": 30,
+          "nights_since_update": 0,
+          "status": "trusted",
+          "usable": true
+        },
+        "bedtime_baseline": null,
+        "tonight_bedtime_offset": null,
+        "strain_baseline": {
+          "baseline": 14.0,
+          "spread": 2.0,
+          "n_valid": 25,
+          "nights_since_update": 0,
+          "status": "trusted",
+          "usable": true
+        },
+        "recent_strain_history": [
+          12.0,
+          13.0,
+          14.0
+        ]
+      },
+      "expected": {
+        "primary_code": "NORMAL_TRAINING_GREEN_RECOVERY",
+        "primary_params": {
+          "score": 82.0
+        },
+        "primary_confidence": "high",
+        "secondary": [
+          {
+            "code": "EFFORT_TARGET",
+            "params_json": "{\"recent_overload\":false,\"strain_baseline\":14.0,\"target_strain\":14.0}",
+            "confidence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "name": "earlier_bedtime",
+      "inputs": {
+        "recovery": {
+          "score": 45.0,
+          "band": "yellow",
+          "confidence": "medium"
+        },
+        "sleep_history": [
+          420.0,
+          440.0,
+          430.0,
+          425.0,
+          435.0
+        ],
+        "duration_baseline": {
+          "baseline": 480.0,
+          "spread": 30.0,
+          "n_valid": 30,
+          "nights_since_update": 0,
+          "status": "trusted",
+          "usable": true
+        },
+        "bedtime_baseline": {
+          "baseline": -60.0,
+          "spread": 10.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted",
+          "usable": true
+        },
+        "tonight_bedtime_offset": -20.0,
+        "strain_baseline": {
+          "baseline": 10.0,
+          "spread": 2.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted",
+          "usable": true
+        },
+        "recent_strain_history": [
+          9.0,
+          10.0,
+          10.5
+        ]
+      },
+      "expected": {
+        "primary_code": "MODERATE_YELLOW_RECOVERY",
+        "primary_params": {
+          "score": 45.0
+        },
+        "primary_confidence": "medium",
+        "secondary": [
+          {
+            "code": "SLEEP_DEBT",
+            "params_json": "{\"debt_min\":250.0,\"window_nights\":5.0}",
+            "confidence": "high"
+          },
+          {
+            "code": "EARLIER_BEDTIME",
+            "params_json": "{\"baseline_offset_min\":-60.0,\"debt_min\":250.0,\"drift_min\":40.0,\"tonight_offset_min\":-20.0}",
+            "confidence": "high"
+          },
+          {
+            "code": "EFFORT_TARGET",
+            "params_json": "{\"recent_overload\":true,\"strain_baseline\":10.0,\"target_strain\":7.0}",
+            "confidence": "high"
+          }
+        ]
+      }
+    }
+  ]
+}

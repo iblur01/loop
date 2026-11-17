@@ -1,0 +1,2 @@
+"NSBluetoothAlwaysUsageDescription" = "Loop connects to your WHOOP 4.0 band over Bluetooth to read heart rate, R-R intervals, battery and sensor data locally on your device.";
+"NSHealthShareUsageDescription" = "Loop reads your workouts and GPS routes, heart rate, steps, HRV, energy, distance, VO2 max, weight and sleep only on your device. Nothing is written to Health or sent elsewhere.";

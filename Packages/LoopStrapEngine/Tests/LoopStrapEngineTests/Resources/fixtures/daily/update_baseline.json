@@ -1,0 +1,151 @@
+{
+  "module": "daily",
+  "function": "update_baseline",
+  "oracle_git_sha": "ffd733a05375103401a415d5ea006ecd04bb3f3c",
+  "oracle_versions": {},
+  "exported_at": "2026-06-16T20:31:46.273410Z",
+  "cases": [
+    {
+      "name": "nil_state_nil_value",
+      "inputs": {
+        "state": null,
+        "value": null,
+        "metric": "hrv"
+      },
+      "output": {
+        "baseline": 127.5,
+        "spread": 5.0,
+        "n_valid": 0,
+        "nights_since_update": 1,
+        "status": "calibrating"
+      },
+      "output_is_none": false
+    },
+    {
+      "name": "nil_state_valid_value",
+      "inputs": {
+        "state": null,
+        "value": 45.2,
+        "metric": "hrv"
+      },
+      "output": {
+        "baseline": 45.2,
+        "spread": 5.0,
+        "n_valid": 1,
+        "nights_since_update": 0,
+        "status": "calibrating"
+      },
+      "output_is_none": false
+    },
+    {
+      "name": "missing_night_skip_and_hold",
+      "inputs": {
+        "state": {
+          "baseline": 45.2,
+          "spread": 5.0,
+          "n_valid": 1,
+          "nights_since_update": 0,
+          "status": "calibrating"
+        },
+        "value": null,
+        "metric": "hrv"
+      },
+      "output": {
+        "baseline": 45.2,
+        "spread": 5.0,
+        "n_valid": 1,
+        "nights_since_update": 1,
+        "status": "calibrating"
+      },
+      "output_is_none": false
+    },
+    {
+      "name": "out_of_bounds_skip_and_hold",
+      "inputs": {
+        "state": {
+          "baseline": 45.2,
+          "spread": 5.0,
+          "n_valid": 1,
+          "nights_since_update": 0,
+          "status": "calibrating"
+        },
+        "value": 300.0,
+        "metric": "hrv"
+      },
+      "output": {
+        "baseline": 45.2,
+        "spread": 5.0,
+        "n_valid": 1,
+        "nights_since_update": 1,
+        "status": "calibrating"
+      },
+      "output_is_none": false
+    },
+    {
+      "name": "hard_outlier_reject_nvalid5",
+      "inputs": {
+        "state": {
+          "baseline": 45.05951624418727,
+          "spread": 5.0,
+          "n_valid": 5,
+          "nights_since_update": 0,
+          "status": "provisional"
+        },
+        "value": 75.05951624418728,
+        "metric": "hrv"
+      },
+      "output": {
+        "baseline": 45.05951624418727,
+        "spread": 5.0,
+        "n_valid": 5,
+        "nights_since_update": 0,
+        "status": "provisional"
+      },
+      "output_is_none": false
+    },
+    {
+      "name": "placeholder_seed_first_real_value",
+      "inputs": {
+        "state": {
+          "baseline": 127.5,
+          "spread": 5.0,
+          "n_valid": 0,
+          "nights_since_update": 1,
+          "status": "calibrating"
+        },
+        "value": 50.0,
+        "metric": "hrv"
+      },
+      "output": {
+        "baseline": 50.0,
+        "spread": 5.0,
+        "n_valid": 1,
+        "nights_since_update": 0,
+        "status": "calibrating"
+      },
+      "output_is_none": false
+    },
+    {
+      "name": "normal_winsorised_ewma_update",
+      "inputs": {
+        "state": {
+          "baseline": 45.040883393104146,
+          "spread": 5.0,
+          "n_valid": 7,
+          "nights_since_update": 0,
+          "status": "provisional"
+        },
+        "value": 47.0,
+        "metric": "hrv"
+      },
+      "output": {
+        "baseline": 45.1355182210346,
+        "spread": 5.0,
+        "n_valid": 8,
+        "nights_since_update": 0,
+        "status": "provisional"
+      },
+      "output_is_none": false
+    }
+  ]
+}

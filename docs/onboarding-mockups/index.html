@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loop — Maquettes Onboarding Flowform (iOS 26 Liquid Glass)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page-bg="light">
+  <!-- Banc de contrôle & inspection (hors écran iPhone) -->
+  <nav class="workbench-header" aria-label="Contrôles de la maquette">
+    <div class="workbench-inner">
+      <div>
+        <div class="workbench-brand">
+          <span>Loop · Onboarding Flowform (iOS 26)</span>
+          <a class="wb-step-pill" href="PLAN.md" style="margin-left:4px;">PLAN.md</a>
+        </div>
+        <div class="workbench-note">
+          Note : Le Liquid Glass est une approximation visuelle HTML/CSS (<code>backdrop-filter</code>, reflets spéculaires, ombres douces) réservée à la navigation flottante — pas le rendu réel iOS 26.
+        </div>
+      </div>
+
+      <div class="workbench-controls">
+        <!-- Mode d'affichage : Planche 3 vues vs parcours 1 écran -->
+        <div class="wb-group" role="group" aria-label="Disposition">
+          <button type="button" class="wb-btn active" data-layout="triptych" aria-pressed="true">3 vues (Clair · Sombre · Erreur)</button>
+          <button type="button" class="wb-btn" data-layout="single" aria-pressed="false">1 écran interactif</button>
+        </div>
+
+        <!-- Thème (actif en mode 1 écran) -->
+        <div class="wb-group" id="theme-group" role="group" aria-label="Thème">
+          <button type="button" class="wb-btn active" data-theme-select="light" aria-pressed="true">Clair</button>
+          <button type="button" class="wb-btn" data-theme-select="dark" aria-pressed="false">Sombre</button>
+        </div>
+
+        <!-- État (actif en mode 1 écran) -->
+        <div class="wb-group" id="state-group" role="group" aria-label="État de l'écran">
+          <button type="button" class="wb-btn active" data-state-select="nominal" aria-pressed="true">Nominal</button>
+          <button type="button" class="wb-btn" data-state-select="error" aria-pressed="false">Vide / Erreur</button>
+        </div>
+
+        <!-- Langue FR / EN parallèle -->
+        <div class="wb-group" role="group" aria-label="Langue">
+          <button type="button" class="wb-btn active" data-lang-select="bilingual" aria-pressed="true">FR + EN</button>
+          <button type="button" class="wb-btn" data-lang-select="fr" aria-pressed="false">FR</button>
+          <button type="button" class="wb-btn" data-lang-select="en" aria-pressed="false">EN</button>
+        </div>
+
+        <!-- Accessibilité -->
+        <div class="wb-group" role="group" aria-label="Accessibilité">
+          <button type="button" class="wb-btn" id="toggle-dt" aria-pressed="false">Dynamic Type +25%</button>
+          <button type="button" class="wb-btn" id="toggle-rt" aria-pressed="false">Réduire transparence</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sélecteur direct des 8 écrans + liens vers les fichiers individuels -->
+    <div class="wb-screen-strip" id="screen-strip" role="navigation" aria-label="Étapes de l'onboarding"></div>
+  </nav>
+
+  <!-- Scène principale -->
+  <main class="stage-container">
+    <div class="phones-row" id="phones-stage"></div>
+  </main>
+
+  <script src="screens-data.js"></script>
+  <script>
+    (function () {
+      var state = {
+        stepIndex: 0,
+        layout: 'triptych', // 'triptych' (Clair + Sombre + Vide/Erreur) ou 'single'
+        theme: 'light',
+        screenState: 'nominal',
+        lang: 'bilingual',
+        dynamicType: 'standard',
+        reduceTransparency: false
+      };
+
+      var stripEl = document.getElementById('screen-strip');
+      var stageEl = document.getElementById('phones-stage');
+
+      function renderStrip() {
+        var html = window.LOOP_SCREENS.map(function (s, idx) {
+          var active = idx === state.stepIndex ? ' active' : '';
+          var current = idx === state.stepIndex ? ' aria-current="step"' : '';
+          var label = state.lang === 'en' ? s.shortNameEn : s.shortNameFr;
+          return (
+            '<button type="button" class="wb-step-pill' + active + '"' + current + ' data-goto="' + idx + '">' +
+              label +
+            '</button>'
+          );
+        }).join('');
+
+        var currentScreen = window.LOOP_SCREENS[state.stepIndex];
+        html += (
+          '<a class="wb-step-pill" href="' + currentScreen.file + '" style="margin-left:auto;">' +
+            'Ouvrir ' + currentScreen.file + ' →' +
+          '</a>'
+        );
+
+        stripEl.innerHTML = html;
+        stripEl.querySelectorAll('[data-goto]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            state.stepIndex = parseInt(btn.getAttribute('data-goto'), 10);
+            renderAll(true);
+          });
+        });
+      }
+
+      function wireNavigation(container) {
+        container.querySelectorAll('[data-action="prev"]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            if (state.stepIndex > 0) {
+              state.stepIndex -= 1;
+              renderAll(true);
+            }
+          });
+        });
+
+        container.querySelectorAll('[data-action="next"]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            if (state.stepIndex < window.LOOP_SCREENS.length - 1) {
+              state.stepIndex += 1;
+              renderAll(true);
+            } else {
+              state.stepIndex = 0;
+              renderAll(true);
+            }
+          });
+        });
+
+        container.querySelectorAll('[data-action="secondary"]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            if (state.stepIndex === 0) {
+              // Sur l'écran 01, "Restaurer une sauvegarde" bascule sur la démo d'état d'erreur ou avance
+              state.screenState = state.screenState === 'error' ? 'nominal' : 'error';
+              updateStateButtons();
+              renderAll(false);
+            } else if (state.stepIndex < window.LOOP_SCREENS.length - 1) {
+              state.stepIndex += 1;
+              renderAll(true);
+            }
+          });
+        });
+
+        window.bindPhoneInteractions(container);
+      }
+
+      function renderStage(focusHeading) {
+        document.body.setAttribute('data-page-bg', state.theme === 'dark' && state.layout === 'single' ? 'dark' : 'light');
+
+        if (state.layout === 'single') {
+          stageEl.innerHTML = (
+            '<div class="phone-column">' +
+              '<div class="phone-caption">' +
+                (state.theme === 'light' ? 'Mode Clair' : 'Mode Sombre') + ' · ' +
+                (state.screenState === 'nominal' ? 'État nominal' : 'État vide / erreur') +
+              '</div>' +
+              window.renderPhoneHTML(state.stepIndex, {
+                theme: state.theme,
+                state: state.screenState,
+                lang: state.lang,
+                dynamicType: state.dynamicType,
+                reduceTransparency: state.reduceTransparency
+              }) +
+            '</div>'
+          );
+        } else {
+          stageEl.innerHTML = (
+            '<div class="phone-column">' +
+              '<div class="phone-caption">1. Version Claire (Nominal)</div>' +
+              window.renderPhoneHTML(state.stepIndex, {
+                theme: 'light',
+                state: 'nominal',
+                lang: state.lang,
+                dynamicType: state.dynamicType,
+                reduceTransparency: state.reduceTransparency
+              }) +
+            '</div>' +
+            '<div class="phone-column">' +
+              '<div class="phone-caption">2. Version Sombre (Nominal)</div>' +
+              window.renderPhoneHTML(state.stepIndex, {
+                theme: 'dark',
+                state: 'nominal',
+                lang: state.lang,
+                dynamicType: state.dynamicType,
+                reduceTransparency: state.reduceTransparency
+              }) +
+            '</div>' +
+            '<div class="phone-column">' +
+              '<div class="phone-caption">3. État Vide / Erreur (' + (state.theme === 'dark' ? 'Sombre' : 'Clair') + ')</div>' +
+              window.renderPhoneHTML(state.stepIndex, {
+                theme: state.theme,
+                state: 'error',
+                lang: state.lang,
+                dynamicType: state.dynamicType,
+                reduceTransparency: state.reduceTransparency
+              }) +
+            '</div>'
+          );
+        }
+
+        wireNavigation(stageEl);
+
+        if (focusHeading) {
+          var firstH1 = stageEl.querySelector('h1.step-title');
+          if (firstH1) firstH1.focus({ preventScroll: true });
+        }
+      }
+
+      function updateStateButtons() {
+        document.querySelectorAll('[data-state-select]').forEach(function (b) {
+          var active = b.getAttribute('data-state-select') === state.screenState;
+          b.classList.toggle('active', active);
+          b.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+      }
+
+      function renderAll(focusHeading) {
+        renderStrip();
+        renderStage(focusHeading);
+      }
+
+      // Contrôles de la barre d'outils
+      document.querySelectorAll('[data-layout]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.layout = btn.getAttribute('data-layout');
+          document.querySelectorAll('[data-layout]').forEach(function (b) {
+            var active = b === btn;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          renderAll(false);
+        });
+      });
+
+      document.querySelectorAll('[data-theme-select]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.theme = btn.getAttribute('data-theme-select');
+          document.querySelectorAll('[data-theme-select]').forEach(function (b) {
+            var active = b === btn;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          renderAll(false);
+        });
+      });
+
+      document.querySelectorAll('[data-state-select]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.screenState = btn.getAttribute('data-state-select');
+          if (state.layout === 'triptych') {
+            state.layout = 'single';
+            document.querySelectorAll('[data-layout]').forEach(function (b) {
+              var active = b.getAttribute('data-layout') === 'single';
+              b.classList.toggle('active', active);
+              b.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+          }
+          updateStateButtons();
+          renderAll(false);
+        });
+      });
+
+      document.querySelectorAll('[data-lang-select]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.lang = btn.getAttribute('data-lang-select');
+          document.querySelectorAll('[data-lang-select]').forEach(function (b) {
+            var active = b === btn;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          renderAll(false);
+        });
+      });
+
+      var dtBtn = document.getElementById('toggle-dt');
+      dtBtn.addEventListener('click', function () {
+        state.dynamicType = state.dynamicType === 'standard' ? 'large' : 'standard';
+        var isLarge = state.dynamicType === 'large';
+        dtBtn.classList.toggle('active', isLarge);
+        dtBtn.setAttribute('aria-pressed', isLarge ? 'true' : 'false');
+        renderAll(false);
+      });
+
+      var rtBtn = document.getElementById('toggle-rt');
+      rtBtn.addEventListener('click', function () {
+        state.reduceTransparency = !state.reduceTransparency;
+        rtBtn.classList.toggle('active', state.reduceTransparency);
+        rtBtn.setAttribute('aria-pressed', state.reduceTransparency ? 'true' : 'false');
+        renderAll(false);
+      });
+
+      // Navigation clavier (flèches gauche / droite hors champs de saisie)
+      window.addEventListener('keydown', function (e) {
+        if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+        if (e.key === 'ArrowRight' && state.stepIndex < window.LOOP_SCREENS.length - 1) {
+          state.stepIndex += 1;
+          renderAll(true);
+        } else if (e.key === 'ArrowLeft' && state.stepIndex > 0) {
+          state.stepIndex -= 1;
+          renderAll(true);
+        }
+      });
+
+      renderAll(false);
+    })();
+  </script>
+</body>
+</html>

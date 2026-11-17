@@ -1,0 +1,188 @@
+{
+  "module": "daily",
+  "function": "recovery_score",
+  "oracle_git_sha": "ffd733a05375103401a415d5ea006ecd04bb3f3c",
+  "oracle_versions": {},
+  "exported_at": "2026-06-16T20:39:21.092936Z",
+  "cases": [
+    {
+      "name": "cold_start_hrv_not_usable",
+      "inputs": {
+        "hrv": 47.0,
+        "rhr": 58.0,
+        "resp": null,
+        "sleep_perf": 0.85,
+        "hrv_baseline": {
+          "baseline": 45.340084056269205,
+          "spread": 5.0,
+          "n_valid": 2,
+          "nights_since_update": 0,
+          "status": "calibrating"
+        },
+        "rhr_baseline": {
+          "baseline": 57.88560189806631,
+          "spread": 2.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        }
+      },
+      "output": {
+        "score": null,
+        "band": null,
+        "confidence": "low",
+        "z_hrv": null,
+        "z_rhr": null,
+        "z_resp": null,
+        "composite_z": null
+      },
+      "output_is_none": false
+    },
+    {
+      "name": "steady_state_high_hrv_low_rhr",
+      "inputs": {
+        "hrv": 56.0,
+        "rhr": 52.0,
+        "resp": null,
+        "sleep_perf": 0.9,
+        "hrv_baseline": {
+          "baseline": 46.31267232615101,
+          "spread": 5.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        },
+        "rhr_baseline": {
+          "baseline": 57.88560189806631,
+          "spread": 2.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        }
+      },
+      "output": {
+        "score": 94.15254491494518,
+        "band": "green",
+        "confidence": "high",
+        "z_hrv": 1.5462614004547472,
+        "z_rhr": 2.3486041093640515,
+        "z_resp": null,
+        "composite_z": 1.5368185917322723
+      },
+      "output_is_none": false
+    },
+    {
+      "name": "steady_state_low_hrv_high_rhr",
+      "inputs": {
+        "hrv": 35.0,
+        "rhr": 68.0,
+        "resp": null,
+        "sleep_perf": 0.65,
+        "hrv_baseline": {
+          "baseline": 46.31267232615101,
+          "spread": 5.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        },
+        "rhr_baseline": {
+          "baseline": 57.88560189806631,
+          "spread": 2.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        }
+      },
+      "output": {
+        "score": 3.6079880078411053,
+        "band": "red",
+        "confidence": "high",
+        "z_hrv": -1.8056939068078228,
+        "z_rhr": -4.036072666374177,
+        "z_resp": null,
+        "composite_z": -2.2532956603784515
+      },
+      "output_is_none": false
+    },
+    {
+      "name": "partial_resp_missing",
+      "inputs": {
+        "hrv": 48.0,
+        "rhr": 57.5,
+        "resp": null,
+        "sleep_perf": 0.87,
+        "hrv_baseline": {
+          "baseline": 46.31267232615101,
+          "spread": 5.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        },
+        "rhr_baseline": {
+          "baseline": 57.88560189806631,
+          "spread": 2.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        },
+        "resp_baseline": {
+          "baseline": 15.091712870893742,
+          "spread": 0.5,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        }
+      },
+      "output": {
+        "score": 66.50980583774131,
+        "band": "yellow",
+        "confidence": "high",
+        "z_hrv": 0.26932604530710147,
+        "z_rhr": 0.15387146770403523,
+        "z_resp": null,
+        "composite_z": 0.2288104428684926
+      },
+      "output_is_none": false
+    },
+    {
+      "name": "with_resp_all_four_terms",
+      "inputs": {
+        "hrv": 48.0,
+        "rhr": 57.5,
+        "resp": 14.9,
+        "sleep_perf": 0.87,
+        "hrv_baseline": {
+          "baseline": 46.31267232615101,
+          "spread": 5.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        },
+        "rhr_baseline": {
+          "baseline": 57.88560189806631,
+          "spread": 2.0,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        },
+        "resp_baseline": {
+          "baseline": 15.091712870893742,
+          "spread": 0.5,
+          "n_valid": 20,
+          "nights_since_update": 0,
+          "status": "trusted"
+        }
+      },
+      "output": {
+        "score": 66.64722354168478,
+        "band": "yellow",
+        "confidence": "high",
+        "z_hrv": 0.26932604530710147,
+        "z_rhr": 0.15387146770403523,
+        "z_resp": 0.3060061786013438,
+        "composite_z": 0.23267022965513515
+      },
+      "output_is_none": false
+    }
+  ]
+}

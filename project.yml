@@ -1,0 +1,137 @@
+name: Loop
+options:
+  bundleIdPrefix: com.iblur01
+  deploymentTarget:
+    iOS: "27.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+packages:
+  ZIPFoundation:
+    url: https://github.com/weichsel/ZIPFoundation.git
+    exactVersion: 0.9.19
+  WhoopProtocol:
+    path: Packages/WhoopProtocol
+  WhoopStore:
+    path: Packages/WhoopStore
+  LoopStrapEngine:
+    path: Packages/LoopStrapEngine
+targets:
+  Loop:
+    type: application
+    platform: iOS
+    sources:
+      - Loop
+    info:
+      path: Loop/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: Loop
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UILaunchScreen: {}
+        NSBluetoothAlwaysUsageDescription: >-
+          Loop connects to your WHOOP 4.0 over Bluetooth to read heart rate,
+          R-R intervals, battery, and sensor data locally on your device.
+        NSHealthShareUsageDescription: >-
+          Loop lit tes séances et leurs tracés GPS d'entraînement, ta fréquence cardiaque, tes pas,
+          ta VFC, ton énergie, ta distance, ta VO2 max, ton poids et ton sommeil, uniquement sur
+          l'appareil : rien n'est écrit dans Santé ni envoyé ailleurs.
+        NSSupportsLiveActivities: true
+        UIBackgroundModes:
+          - bluetooth-central
+          - fetch
+          - processing
+        # OBLIGATOIRE pour que BGTaskScheduler.register/submit fonctionne : sans ces IDs déclarés,
+        # register() échoue silencieusement et les tâches de fond (refresh BLE + calcul) ne tournent
+        # JAMAIS. Doit matcher BackgroundTaskManager.refreshTaskID / processingTaskID.
+        BGTaskSchedulerPermittedIdentifiers:
+          - com.loop.background.refresh
+          - com.loop.background.processing
+          # Joker BGContinuedProcessingTask (synchro Apple Santé) : préfixe = bundle ID + .*
+          - com.iblur01.Loop.healthsync.*
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: com.iblur01.loop.backup
+            UTTypeDescription: Sauvegarde Loop
+            UTTypeConformsTo:
+              - com.apple.package
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - loopbackup
+        # Deep-links loop:// — ouvre l'app sur une page précise (notifications locales futures).
+        CFBundleURLTypes:
+          - CFBundleURLName: com.iblur01.loop.deeplink
+            CFBundleURLSchemes:
+              - loop
+    dependencies:
+      - target: LoopWidgets
+        embed: true
+      - package: WhoopProtocol
+      - package: WhoopStore
+      - package: LoopStrapEngine
+      - package: ZIPFoundation
+    settings:
+      base:
+        TARGETED_DEVICE_FAMILY: 1
+        PRODUCT_BUNDLE_IDENTIFIER: com.iblur01.Loop
+        DEVELOPMENT_TEAM: 7T3MV939W6
+        ASSETCATALOG_COMPILER_APPICON_NAME: LogoLoop
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_ENTITLEMENTS: Loop/Loop.entitlements
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+  LoopTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - LoopTests
+    dependencies:
+      - target: Loop
+      - package: WhoopStore
+      - package: WhoopProtocol
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.iblur01.LoopTests
+        DEVELOPMENT_TEAM: 7T3MV939W6
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_STYLE: Automatic
+  LoopWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - LoopWidgets
+      - Loop/Shared/BraceletBatteryActivityAttributes.swift
+      - Loop/Shared/LoopWidgetSnapshotStore.swift
+    info:
+      path: LoopWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: Loop Widgets
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.iblur01.Loop.widgets
+        DEVELOPMENT_TEAM: 7T3MV939W6
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_ENTITLEMENTS: LoopWidgets/LoopWidgets.entitlements
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SKIP_INSTALL: YES
+schemes:
+  Loop:
+    build:
+      targets:
+        Loop: all
+        LoopWidgets: all
+    # Cmd+R (Run) en Release : le Debug est ~10× plus lent sur le moteur (detectSleep,
+    # Welch PSD). Test/Analyze restent en Debug (assertions, couverture, diagnostics).
+    run:
+      config: Release
+    test:
+      config: Debug
+      targets:
+        - LoopTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

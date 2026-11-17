@@ -1,0 +1,1148 @@
+/* ==========================================================================
+   Loop Onboarding Mockups — Stylesheet (iOS 26 Liquid Glass Approximation)
+   Tokens strictement alignés sur docs/design/SPEC-DESIGN-LOOP.md & DESIGN.md
+   ========================================================================== */
+
+:root,
+[data-theme="light"] {
+  /* §2.1 Surfaces & texte — Mode Clair */
+  --bg-base: #F2F2F7;
+  --bg-sheet: #F7F7FA;
+  --surface-card: #FFFFFF;
+  --surface-nested: #F2F2F6;
+  --surface-highlight: #E4E4EA;
+  --stroke-card: rgba(0, 0, 0, 0.06);
+  --stroke-strong: rgba(0, 0, 0, 0.14);
+  --track-empty: #E2E2E8;
+  --text-primary: #0B0B0C;
+  --text-secondary: #5E5E66; /* 6.4:1 sur #FFF, 5.8:1 sur #F2F2F7 (WCAG AA) */
+  --text-tertiary: #8A8A90;  /* Décoratif uniquement */
+
+  /* §2.2 États — Mode Clair */
+  --state-good: #157A3F;
+  --state-good-bg: rgba(21, 122, 63, 0.12);
+  --state-fair: #8F6000;
+  --state-fair-bg: rgba(143, 96, 0, 0.12);
+  --state-poor: #C92F2A;
+  --state-poor-bg: rgba(201, 47, 42, 0.10);
+  --state-neutral: #5E5E66;
+  --state-neutral-bg: rgba(94, 94, 102, 0.10);
+
+  /* §2.3 Teintes de métriques — Mode Clair */
+  --metric-strain: #0070B8;
+  --metric-sleep: #5A45D6;
+  --metric-cardio: #C8155A;
+  --metric-hrv: #007D6E;
+
+  /* Accent unique sobre pour les contrôles Liquid Glass */
+  --accent-action: #0B0B0C;
+  --accent-action-fg: #FFFFFF;
+  --accent-tint: #0070B8;
+  --accent-tint-soft: rgba(0, 112, 184, 0.11);
+
+  /* Approximation HTML Liquid Glass — Mode Clair
+     (Uniquement sur la barre de navigation et le dock d'action flottant) */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-pill-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-outer-stroke: rgba(0, 0, 0, 0.08);
+  --glass-specular: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -0.5px 0 rgba(0, 0, 0, 0.05);
+  --glass-shadow: 0 10px 28px rgba(0, 0, 0, 0.07), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --dock-scrim: linear-gradient(180deg, rgba(242, 242, 247, 0) 0%, rgba(242, 242, 247, 0.86) 36%, rgba(242, 242, 247, 0.98) 100%);
+
+  /* Mesures §2.5 */
+  --radius-card: 26px;
+  --radius-nested: 18px;
+  --radius-tile: 22px;
+  --screen-gutter: 16px;
+  --card-padding: 16px;
+  --font-scale: 1;
+}
+
+[data-theme="dark"] {
+  /* §2.1 Surfaces & texte — Mode Sombre */
+  --bg-base: #000000;
+  --bg-sheet: #0E0E10;
+  --surface-card: #1A1A1D;
+  --surface-nested: #2A2A2E;
+  --surface-highlight: #3A3A3E;
+  --stroke-card: rgba(255, 255, 255, 0.08);
+  --stroke-strong: rgba(255, 255, 255, 0.18);
+  --track-empty: #2C2C2E;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A6A6AD; /* 7.2:1 sur #1A1A1D, 8.7:1 sur #000 (WCAG AA) */
+  --text-tertiary: #7C7C83;  /* Décoratif uniquement */
+
+  /* §2.2 États — Mode Sombre */
+  --state-good: #34D17A;
+  --state-good-bg: rgba(52, 209, 122, 0.16);
+  --state-fair: #FFC233;
+  --state-fair-bg: rgba(255, 194, 51, 0.16);
+  --state-poor: #FF5A4F;
+  --state-poor-bg: rgba(255, 90, 79, 0.16);
+  --state-neutral: #A6A6AD;
+  --state-neutral-bg: rgba(166, 166, 173, 0.14);
+
+  /* §2.3 Teintes de métriques — Mode Sombre */
+  --metric-strain: #1FB6FF;
+  --metric-sleep: #8E7CFF;
+  --metric-cardio: #FF3D7F;
+  --metric-hrv: #2FD9C5;
+
+  /* Accent unique sobre */
+  --accent-action: #FFFFFF;
+  --accent-action-fg: #0B0B0C;
+  --accent-tint: #1FB6FF;
+  --accent-tint-soft: rgba(31, 182, 255, 0.15);
+
+  /* Approximation HTML Liquid Glass — Mode Sombre */
+  --glass-bg: rgba(32, 32, 36, 0.72);
+  --glass-pill-bg: rgba(38, 38, 44, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.16);
+  --glass-outer-stroke: rgba(255, 255, 255, 0.12);
+  --glass-specular: inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -0.5px 0 rgba(0, 0, 0, 0.5);
+  --glass-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.35);
+  --dock-scrim: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.86) 36%, rgba(0, 0, 0, 0.98) 100%);
+}
+
+/* Dynamic Type +25 % (Accessibilité) */
+[data-dynamic-type="large"] {
+  --font-scale: 1.18;
+}
+
+/* Réduire les transparences (§8.2) : supprime tout flou et rend le chrome 100 % opaque */
+[data-reduce-transparency="true"] {
+  --glass-bg: var(--surface-card);
+  --glass-pill-bg: var(--surface-card);
+  --glass-outer-stroke: var(--stroke-strong);
+  --glass-specular: none;
+}
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #E5E5EC;
+  color: var(--text-primary);
+}
+
+body[data-page-bg="dark"] {
+  background-color: #111114;
+}
+
+/* Focus clavier accessible (WCAG 2.4.7) */
+:focus-visible {
+  outline: 2px solid var(--accent-tint);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Barre d'inspection du prototype (Banc d'essai hors écran iPhone)
+   ========================================================================== */
+.workbench-header {
+  width: 100%;
+  background: #161619;
+  color: #F2F2F7;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 16px;
+  font-size: 12px;
+}
+
+.workbench-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.workbench-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #FFFFFF;
+}
+
+.workbench-note {
+  font-size: 11px;
+  color: #A6A6AD;
+  line-height: 1.35;
+}
+
+.workbench-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.wb-group {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 2px;
+}
+
+.wb-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #D1D1D6;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  min-height: 28px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wb-btn:hover {
+  color: #FFFFFF;
+}
+
+.wb-btn[aria-pressed="true"],
+.wb-btn.active {
+  background: #FFFFFF;
+  color: #0B0B0C;
+  font-weight: 600;
+}
+
+.wb-screen-strip {
+  max-width: 1240px;
+  margin: 8px auto 0;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.wb-step-pill {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: #C7C7CC;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 9px;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.wb-step-pill.active,
+.wb-step-pill[aria-current="step"] {
+  background: #1FB6FF;
+  border-color: #1FB6FF;
+  color: #000000;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Mise en page du stage et du châssis iPhone (393 × 852 pt)
+   ========================================================================== */
+.stage-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.phones-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+  width: 100%;
+}
+
+.phone-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.phone-caption {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #5E5E66;
+}
+
+body[data-page-bg="dark"] .phone-caption {
+  color: #A6A6AD;
+}
+
+/* Cadre iPhone 393 × 852 exact */
+.iphone-frame {
+  width: 393px;
+  max-width: 100%;
+  height: 852px;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  border-radius: 48px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(128, 128, 136, 0.28);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Responsive strict à 393 px : aucune marge externe qui ferait déborder */
+@media (max-width: 420px) {
+  .stage-container {
+    padding: 0;
+    gap: 0;
+  }
+  .phones-row {
+    gap: 16px;
+  }
+  .iphone-frame {
+    width: 100%;
+    min-height: 852px;
+    height: auto;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .workbench-header {
+    padding: 8px 10px;
+  }
+}
+
+/* ==========================================================================
+   Barre d'état iOS + Barre de navigation Liquid Glass (Flottante)
+   ========================================================================== */
+.ios-statusbar {
+  height: 44px;
+  padding: 12px 26px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  z-index: 20;
+  user-select: none;
+}
+
+.ios-statusbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Top bar en Liquid Glass (SPEC-DESIGN-LOOP §5.1) */
+.top-nav-bar {
+  padding: 6px var(--screen-gutter) 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  z-index: 20;
+}
+
+.glass-icon-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-outer-stroke);
+  background: var(--glass-pill-bg);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: var(--glass-specular), var(--glass-shadow);
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.14s ease, opacity 0.14s ease;
+}
+
+[data-reduce-transparency="true"] .glass-icon-btn {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.glass-icon-btn:active {
+  transform: scale(0.96);
+}
+
+.glass-icon-btn[disabled] {
+  opacity: 0.32;
+  cursor: default;
+}
+
+/* Pilule centrale contenant l'indicateur de progression 8 étapes */
+.glass-progress-pill {
+  flex: 1;
+  min-height: 44px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-outer-stroke);
+  background: var(--glass-pill-bg);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: var(--glass-specular), var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+[data-reduce-transparency="true"] .glass-progress-pill {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.progress-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-segments {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+  width: 100%;
+}
+
+.progress-seg {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--track-empty);
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.progress-seg.done {
+  background: var(--text-secondary);
+}
+
+.progress-seg.current {
+  background: var(--accent-tint);
+}
+
+.glass-skip-btn {
+  min-height: 44px;
+  padding: 0 13px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-outer-stroke);
+  background: var(--glass-pill-bg);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: var(--glass-specular), var(--glass-shadow);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+[data-reduce-transparency="true"] .glass-skip-btn {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ==========================================================================
+   Zone de contenu défilable (Surfaces opaques uniquement — §5.2)
+   ========================================================================== */
+.screen-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px var(--screen-gutter) 168px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scrollbar-width: none;
+}
+
+.screen-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* En-tête de l'étape Flowform */
+.step-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 2px 2px 4px;
+}
+
+.step-overline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: calc(11px * var(--font-scale));
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.step-title {
+  margin: 0;
+  font-size: calc(25px * var(--font-scale));
+  line-height: 1.18;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.step-subtitle {
+  margin: 0;
+  font-size: calc(14.5px * var(--font-scale));
+  line-height: 1.42;
+  color: var(--text-secondary);
+}
+
+/* Traduction anglaise en parallèle (vérification de longueur des libellés) */
+.en-parallel {
+  display: none;
+  font-size: calc(12px * var(--font-scale));
+  line-height: 1.35;
+  color: var(--text-secondary);
+  font-style: normal;
+  opacity: 0.88;
+  margin-top: 2px;
+  padding-left: 7px;
+  border-left: 2px solid var(--stroke-strong);
+}
+
+[data-lang="bilingual"] .en-parallel {
+  display: block;
+}
+
+.btn-en-sub {
+  display: none;
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.82;
+}
+
+[data-lang="bilingual"] .btn-en-sub {
+  display: block;
+}
+
+/* ==========================================================================
+   Cartes de données Opaques (LoopCard .card & .nested — SPEC-DESIGN-LOOP §5.2)
+   Zéro verre sur verre !
+   ========================================================================== */
+.loop-card {
+  background-color: var(--surface-card);
+  border: 1px solid var(--stroke-card);
+  border-radius: var(--radius-card);
+  padding: var(--card-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loop-nested {
+  background-color: var(--surface-nested);
+  border-radius: var(--radius-nested);
+  padding: 13px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-section-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: calc(11.5px * var(--font-scale));
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+/* Lignes d'items avec icône SF Symbol */
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.item-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 10px;
+  background: var(--surface-nested);
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.item-icon.accent {
+  background: var(--accent-tint-soft);
+  color: var(--accent-tint);
+}
+
+.item-icon.good {
+  background: var(--state-good-bg);
+  color: var(--state-good);
+}
+
+.item-icon.fair {
+  background: var(--state-fair-bg);
+  color: var(--state-fair);
+}
+
+.item-icon.poor {
+  background: var(--state-poor-bg);
+  color: var(--state-poor);
+}
+
+.item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-title {
+  margin: 0;
+  font-size: calc(14.5px * var(--font-scale));
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.item-desc {
+  margin: 2px 0 0;
+  font-size: calc(13px * var(--font-scale));
+  line-height: 1.38;
+  color: var(--text-secondary);
+}
+
+.hairline {
+  height: 1px;
+  background: var(--stroke-card);
+  width: 100%;
+  margin: 2px 0;
+}
+
+/* ==========================================================================
+   Badges d'état accessibles (Toujours Icône + Mot — SPEC-DESIGN-LOOP §2.2 & §8.6)
+   ========================================================================== */
+.state-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 600;
+  line-height: 1.2;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.state-badge.good {
+  background: var(--state-good-bg);
+  color: var(--state-good);
+}
+
+.state-badge.fair {
+  background: var(--state-fair-bg);
+  color: var(--state-fair);
+}
+
+.state-badge.poor {
+  background: var(--state-poor-bg);
+  color: var(--state-poor);
+}
+
+.state-badge.neutral {
+  background: var(--state-neutral-bg);
+  color: var(--state-neutral);
+}
+
+/* Bannière d'état vide ou d'erreur */
+.status-banner {
+  border-radius: var(--radius-nested);
+  padding: 13px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  border: 1px solid var(--stroke-card);
+}
+
+.status-banner.poor {
+  background: var(--state-poor-bg);
+  border-color: rgba(201, 47, 42, 0.28);
+}
+
+.status-banner.fair {
+  background: var(--state-fair-bg);
+  border-color: rgba(143, 96, 0, 0.28);
+}
+
+.status-banner.neutral {
+  background: var(--surface-nested);
+}
+
+.status-banner-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.status-banner.poor .status-banner-icon,
+.status-banner.poor .status-banner-title {
+  color: var(--state-poor);
+}
+
+.status-banner.fair .status-banner-icon,
+.status-banner.fair .status-banner-title {
+  color: var(--state-fair);
+}
+
+.status-banner-title {
+  margin: 0;
+  font-size: calc(13.5px * var(--font-scale));
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.status-banner-text {
+  margin: 3px 0 0;
+  font-size: calc(12.5px * var(--font-scale));
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Composants spécifiques par écran
+   ========================================================================== */
+
+/* Écran 04 : Indicateur LED bleue d'association (Accessible daltonisme) */
+.led-stage {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-nested);
+  background: var(--surface-nested);
+}
+
+.led-orb-wrap {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 999px;
+  background: var(--accent-tint-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.led-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--accent-tint);
+  position: relative;
+}
+
+.led-ring {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 2px solid var(--accent-tint);
+  opacity: 0.45;
+  animation: ledPulse 1.8s ease-out infinite;
+}
+
+@keyframes ledPulse {
+  0% { transform: scale(0.65); opacity: 0.75; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+/* Écran 05 : Lignes de profil minimal */
+.profile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 48px;
+  padding: 4px 0;
+}
+
+[data-dynamic-type="large"] .profile-row {
+  flex-wrap: wrap;
+}
+
+.profile-label-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.profile-label {
+  font-size: calc(14.5px * var(--font-scale));
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.profile-source-tag {
+  font-size: calc(11.5px * var(--font-scale));
+  color: var(--text-secondary);
+}
+
+.profile-value-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-input {
+  width: 78px;
+  min-height: 38px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--stroke-strong);
+  background: var(--surface-nested);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.profile-input[aria-invalid="true"] {
+  border-color: var(--state-poor);
+  background: var(--state-poor-bg);
+}
+
+.profile-unit {
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 500;
+  color: var(--text-secondary);
+  min-width: 28px;
+}
+
+/* Écran 06 : Grille multi-choix des sports */
+.sports-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+/* En Dynamic Type large, la grille passe à 1 colonne (§3 SPEC-DESIGN-LOOP) */
+[data-dynamic-type="large"] .sports-grid {
+  grid-template-columns: 1fr;
+}
+
+.sport-tile {
+  appearance: none;
+  border: 1px solid var(--stroke-card);
+  background: var(--surface-card);
+  color: var(--text-primary);
+  border-radius: var(--radius-tile);
+  padding: 13px 14px;
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.12s ease;
+}
+
+.sport-tile:active {
+  transform: scale(0.98);
+}
+
+.sport-tile[aria-checked="true"] {
+  background: var(--surface-highlight);
+  border-color: var(--text-primary);
+}
+
+.sport-tile-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sport-check {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 999px;
+  border: 1.5px solid var(--stroke-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+}
+
+.sport-tile[aria-checked="true"] .sport-check {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: var(--bg-base);
+}
+
+/* Écran 07 : Barres de synchronisation par source */
+.sync-bar-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--track-empty);
+  overflow: hidden;
+}
+
+.sync-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent-tint);
+  transition: width 0.35s ease;
+}
+
+.sync-bar-fill.good {
+  background: var(--state-good);
+}
+
+/* Écran 08 : Jauge de confiance 3 segments (TrainingConfidenceRow) */
+.confidence-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.confidence-bars {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.conf-seg {
+  width: 16px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--track-empty);
+}
+
+.conf-seg.filled {
+  background: var(--text-primary);
+}
+
+/* Bascule iOS accessible (Écran 08 Notifications) */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+}
+
+.ios-switch {
+  appearance: none;
+  width: 51px;
+  height: 31px;
+  min-width: 51px;
+  border-radius: 999px;
+  background: var(--track-empty);
+  border: 1px solid var(--stroke-strong);
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.ios-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 25px;
+  height: 25px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s ease;
+}
+
+.ios-switch[aria-checked="true"] {
+  background: var(--state-good);
+  border-color: var(--state-good);
+}
+
+.ios-switch[aria-checked="true"]::after {
+  transform: translateX(20px);
+}
+
+/* ==========================================================================
+   Dock d'action inférieur flottant en Liquid Glass (GlassEffectContainer)
+   ========================================================================== */
+.bottom-glass-dock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px var(--screen-gutter) 22px;
+  background: var(--dock-scrim);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.glass-effect-container {
+  padding: 10px;
+  border-radius: 28px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-outer-stroke);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: var(--glass-specular), var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+[data-reduce-transparency="true"] .glass-effect-container {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Bouton primaire (.buttonStyle(.glassProminent)) */
+.btn-glass-prominent {
+  appearance: none;
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: var(--accent-action);
+  color: var(--accent-action-fg);
+  font-family: inherit;
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.14s ease, opacity 0.14s ease;
+}
+
+.btn-glass-prominent:active {
+  transform: scale(0.985);
+}
+
+/* Bouton secondaire (.buttonStyle(.glass)) */
+.btn-glass-secondary {
+  appearance: none;
+  width: 100%;
+  min-height: 44px;
+  padding: 9px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke-card);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.14s ease, color 0.14s ease;
+}
+
+.btn-glass-secondary:hover {
+  background: var(--surface-nested);
+  color: var(--text-primary);
+}
+
+.home-indicator {
+  width: 134px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--text-primary);
+  opacity: 0.24;
+  margin: 4px auto 0;
+}
+
+/* ==========================================================================
+   Respect strict de prefers-reduced-motion & mode sans animation
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+[data-reduce-motion="true"] *,
+[data-reduce-motion="true"] *::before,
+[data-reduce-motion="true"] *::after {
+  animation: none !important;
+  transition: none !important;
+}

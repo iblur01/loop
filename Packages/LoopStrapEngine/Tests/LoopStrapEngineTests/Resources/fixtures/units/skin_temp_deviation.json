@@ -1,0 +1,74 @@
+{
+  "module": "units",
+  "function": "skin_temp_deviation",
+  "oracle_git_sha": "bdbc7aa4e358dbe94238da1cc72140d5c2997012",
+  "oracle_versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "exported_at": "2026-06-15T19:33:54.935882Z",
+  "cases": [
+    {
+      "name": "below_baseline_negative",
+      "inputs": {
+        "raw_series": [
+          910.0,
+          930.0,
+          950.0
+        ],
+        "baseline_raw": 930.0
+      },
+      "output": [
+        -0.4,
+        0.0,
+        0.4
+      ],
+      "output_is_none": false
+    },
+    {
+      "name": "deviation_magnitude_100raw",
+      "inputs": {
+        "raw_series": [
+          1030.0
+        ],
+        "baseline_raw": 930.0
+      },
+      "output": [
+        2.0
+      ],
+      "output_is_none": false,
+      "kwargs": {
+        "slope": 0.02
+      }
+    },
+    {
+      "name": "default_slope_deviation",
+      "inputs": {
+        "raw_series": [
+          960.0
+        ],
+        "baseline_raw": 930.0
+      },
+      "output": [
+        0.6
+      ],
+      "output_is_none": false
+    },
+    {
+      "name": "offset_cancellation",
+      "inputs": {
+        "raw_series": [
+          960.0
+        ],
+        "baseline_raw": 930.0
+      },
+      "output": [
+        0.6
+      ],
+      "output_is_none": false,
+      "kwargs": {
+        "slope": 0.02
+      }
+    }
+  ]
+}

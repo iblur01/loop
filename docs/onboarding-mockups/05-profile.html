@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loop Onboarding — 05 · Profil minimal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page-bg="light">
+  <nav class="workbench-header" aria-label="Contrôles de l'écran 05">
+    <div class="workbench-inner">
+      <div>
+        <div class="workbench-brand">05 · Profil minimal (Âge, taille, poids, FC max si connue)</div>
+        <div class="workbench-note">Approximation HTML du Liquid Glass (ne correspond pas au rendu shader natif iOS 26).</div>
+      </div>
+      <div class="workbench-controls">
+        <div class="wb-group" role="group" aria-label="Langue">
+          <button type="button" class="wb-btn active" data-lang-select="bilingual" aria-pressed="true">FR + EN</button>
+          <button type="button" class="wb-btn" data-lang-select="fr" aria-pressed="false">FR</button>
+          <button type="button" class="wb-btn" data-lang-select="en" aria-pressed="false">EN</button>
+        </div>
+        <div class="wb-group" role="group" aria-label="Accessibilité">
+          <button type="button" class="wb-btn" id="toggle-dt" aria-pressed="false">Dynamic Type +25%</button>
+          <button type="button" class="wb-btn" id="toggle-rt" aria-pressed="false">Réduire transparence</button>
+        </div>
+      </div>
+    </div>
+    <div class="wb-screen-strip" id="screen-strip"></div>
+  </nav>
+  <main class="stage-container">
+    <div class="phones-row" id="phones-stage"></div>
+  </main>
+  <script>window.CURRENT_STEP_INDEX = 4;</script>
+  <script src="screens-data.js"></script>
+  <script src="screen-page.js"></script>
+</body>
+</html>

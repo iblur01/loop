@@ -1,0 +1,85 @@
+{
+  "module": "hrv",
+  "function": "pnn50",
+  "oracle_git_sha": "2447572a9323fdddf7d191012f6cfb06eed9909d",
+  "oracle_versions": {
+    "neurokit2": "0.2.13",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "exported_at": "2026-06-15T20:35:42.833471Z",
+  "cases": [
+    {
+      "name": "constant_rr",
+      "inputs": {
+        "rr_ms": [
+          850,
+          850,
+          850,
+          850
+        ]
+      },
+      "output": 0.0,
+      "output_is_none": false
+    },
+    {
+      "name": "alternating_rr",
+      "inputs": {
+        "rr_ms": [
+          800,
+          900,
+          800,
+          900,
+          800
+        ]
+      },
+      "output": 100.0,
+      "output_is_none": false
+    },
+    {
+      "name": "denominator_lock_one_over_50_among_four",
+      "inputs": {
+        "rr_ms": [
+          800,
+          850,
+          900,
+          960
+        ]
+      },
+      "output": 33.33333333333333,
+      "output_is_none": false
+    },
+    {
+      "name": "outlier_filtering",
+      "inputs": {
+        "rr_ms": [
+          100,
+          800,
+          900,
+          900,
+          5000
+        ]
+      },
+      "output": 50.0,
+      "output_is_none": false
+    },
+    {
+      "name": "single_plausible_no_pairs_nan",
+      "inputs": {
+        "rr_ms": [
+          800
+        ]
+      },
+      "output": "NaN",
+      "output_is_none": false
+    },
+    {
+      "name": "empty_no_pairs_nan",
+      "inputs": {
+        "rr_ms": []
+      },
+      "output": "NaN",
+      "output_is_none": false
+    }
+  ]
+}
